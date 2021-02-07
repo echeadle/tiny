@@ -29,8 +29,7 @@ def main():
     args = get_args()
 
     pos_arg = args.word
-    char = pos_arg[0].lower()
-    article = 'an' if char in 'aeiou' else 'a'
+    article = 'an' if pos_arg[0].lower() in 'aeiou' else 'a'
 
     print(f'Ahoy, Captain, {article} {pos_arg} off the larboard bow!')
 
