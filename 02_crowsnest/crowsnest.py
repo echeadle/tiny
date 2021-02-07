@@ -30,7 +30,7 @@ def main():
 
     pos_arg = args.positional
 
-    print(f'positional = "{pos_arg}"')
+    print(f'Ahoy, Captain, a {pos_arg} off the larboard bow!')
 
 
 # --------------------------------------------------
