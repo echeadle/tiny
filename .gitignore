@@ -1,3 +1,4 @@
 tiny_python_projects
 venv
 __pycache__
+__.pytest_cache
