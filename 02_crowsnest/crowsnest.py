@@ -13,11 +13,11 @@ def get_args():
     """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description="Rock the Casbah",
+        description="Crow's Nest -- choose the correct article",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
-    parser.add_argument("positional", metavar="str", help="A positional argument")
+    parser.add_argument("positional", metavar="word", help="A word")
 
     return parser.parse_args()
 
