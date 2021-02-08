@@ -29,26 +29,24 @@ def get_args():
                         metavar='str',
                         type=str,
                         default='')
+    
+    args = parser.parse_args()
 
-    return parser.parse_args()
+    if os.path.isfile(args.text):
+        args.text = open(args.text).read().rstrip()
+
+    return args
 
 
 # --------------------------------------------------
 def main():
-    """Make a jazz noise here"""
+    """Program Entry Point"""
 
     args = get_args()
-    str_arg = args.arg
-    int_arg = args.int
-    file_arg = args.file
-    flag_arg = args.on
-    pos_arg = args.positional
-
-    print(f'str_arg = "{str_arg}"')
-    print(f'int_arg = "{int_arg}"')
-    print('file_arg = "{}"'.format(file_arg.name if file_arg else ''))
-    print(f'flag_arg = "{flag_arg}"')
-    print(f'positional = "{pos_arg}"')
+ 
+    out_fh = open(args.outfile, 'wt') if args.outfile else sys.stdout
+    out_fh.write(args.text.upper() + '\n')
+    out_fh.close()
 
 
 # --------------------------------------------------
