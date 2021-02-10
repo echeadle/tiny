@@ -92,6 +92,9 @@ def main():
         adjs = ", ".join(random.sample(adjectives, k=args.adjectives))
         print(f"You {adjs} {random.choice(nouns)}!")
 
+    print(f"Length of adjectives {len(adjectives)}")
+    print(f"Length of nouns {len(nouns)}.")
+
 
 # --------------------------------------------------
 if __name__ == "__main__":
