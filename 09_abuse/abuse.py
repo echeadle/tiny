@@ -12,6 +12,7 @@ Purpose: Curse Generator
 """
 
 import argparse
+import random
 
 
 # --------------------------------------------------
@@ -19,60 +20,62 @@ def get_args():
     """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description='Rock the Casbah',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description="Heap Abuse", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
-    parser.add_argument('positional',
-                        metavar='str',
-                        help='A positional argument')
+    parser.add_argument(
+        "-a",
+        "--adjectives",
+        help="Number of adjectives",
+        metavar="adjectives",
+        type=int,
+        default=2,
+    )
 
-    parser.add_argument('-a',
-                        '--arg',
-                        help='A named string argument',
-                        metavar='str',
-                        type=str,
-                        default='')
+    parser.add_argument(
+        "-n",
+        "--insults",
+        help="Number of insults",
+        metavar="insults",
+        type=int,
+        default=3,
+    )
 
-    parser.add_argument('-i',
-                        '--int',
-                        help='A named integer argument',
-                        metavar='int',
-                        type=int,
-                        default=0)
-
-    parser.add_argument('-f',
-                        '--file',
-                        help='A readable file',
-                        metavar='FILE',
-                        type=argparse.FileType('rt'),
-                        default=None)
-
-    parser.add_argument('-o',
-                        '--on',
-                        help='A boolean flag',
-                        action='store_true')
+    parser.add_argument(
+        "-s",
+        "--seed",
+        metavar="seed",
+        help="Random seed",
+        type=int,
+        default=None,
+    )
 
     return parser.parse_args()
 
 
 # --------------------------------------------------
 def main():
-    """Make a jazz noise here"""
+    """Program Entry point"""
 
     args = get_args()
-    str_arg = args.arg
-    int_arg = args.int
-    file_arg = args.file
-    flag_arg = args.on
-    pos_arg = args.positional
+    random.seed(args.seed)
 
-    print(f'str_arg = "{str_arg}"')
-    print(f'int_arg = "{int_arg}"')
-    print('file_arg = "{}"'.format(file_arg.name if file_arg else ''))
-    print(f'flag_arg = "{flag_arg}"')
-    print(f'positional = "{pos_arg}"')
+    adjectives = """
+        bankrupt base caterwauling corrupt cullionly detestable dishonest false
+        filthsome filthy foolish foul gross heedless indistinguishable infected
+        insatiate irksome lascivious lecherous loathsome lubbery old peevish
+        rascaly rotten ruinous scurilous scurvy slanderous sodden-witted
+        thin-faced toad-spotted unmannered vile wall-eyed
+        """.strip().split()
+
+    nouns = """
+        Judas Satan ape ass barbermonger beggar block boy braggart butt
+        carbuncle coward coxcomb cur dandy degenerate fiend fishmonger fool
+        gull harpy jack jolthead knave liar lunatic maw milksop minion
+        ratcatcher recreant rogue scold slave swine traitor varlet villain worm
+        """.strip().split()
 
 
 # --------------------------------------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
