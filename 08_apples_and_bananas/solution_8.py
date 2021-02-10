@@ -7,6 +7,7 @@ Purpose: Apples and Bananas: Solution 8  With REGEX function
 
 import argparse
 import os
+import re
 
 # --------------------------------------------------
 def get_args():
@@ -41,12 +42,12 @@ def main():
     """Program entry point"""
     args = get_args()
     vowel = args.vowel
+    text = args.text
 
-    text = map(
-        lambda c: vowel if c in 'aeiou' else vowel.upper()
-        if c in 'AEIOU' else c , args.text)
-    )
-    print(''.join(text))
+    text = re.sub('[aeiou]', vowel, text)
+    text = re.sub('[AEIOU]', vowel.upper(), text)
+    print(text)
+
 
 # --------------------------------------------------
 if __name__ == "__main__":
