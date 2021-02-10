@@ -2,7 +2,7 @@
 """
 Author : echeadle <echeadle@localhost>
 Date   : 2021-02-09
-Purpose: Apples and Bananas: Solution 7  With MAP function
+Purpose: Apples and Bananas: Solution 8  With REGEX function
 """
 
 import argparse
@@ -42,11 +42,11 @@ def main():
     args = get_args()
     vowel = args.vowel
 
-
-def new_char(c):
-    return vowel if c in 'aeiou' else vowel.upper() if c in 'AEIOU' else c
-
-    print(''.join(map(new_char, args.text)))
+    text = map(
+        lambda c: vowel if c in 'aeiou' else vowel.upper()
+        if c in 'AEIOU' else c , args.text)
+    )
+    print(''.join(text))
 
 # --------------------------------------------------
 if __name__ == "__main__":
