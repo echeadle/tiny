@@ -13,6 +13,7 @@ Purpose: Curse Generator
 
 import argparse
 import random
+import sys
 
 
 # --------------------------------------------------
@@ -34,7 +35,7 @@ def get_args():
 
     parser.add_argument(
         "-n",
-        "--insults",
+        "--number",
         help="Number of insults",
         metavar="insults",
         type=int,
@@ -50,7 +51,19 @@ def get_args():
         default=None,
     )
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if args.adjectives < 1:
+        parser.print_usage()
+        parser.error(f'--adjectives "{args.adjectives}" must be > 0.')
+        sys.exit(1)
+
+    if args.number < 1:
+        parser.print_usage()
+        parser.error(f'--number "{args.number}" must be > 0.')
+        sys.exit(1)
+
+    return args
 
 
 # --------------------------------------------------
@@ -74,6 +87,10 @@ def main():
         gull harpy jack jolthead knave liar lunatic maw milksop minion
         ratcatcher recreant rogue scold slave swine traitor varlet villain worm
         """.strip().split()
+
+    for _ in range(args.number):
+        adjs = ", ".join(random.sample(adjectives, k=args.adjectives))
+        print(f"You {adjs} {random.choice(nouns)}!")
 
 
 # --------------------------------------------------
