@@ -2,7 +2,7 @@
 """
 Author : echeadle <echeadle@localhost>
 Date   : 2021-02-09
-Purpose: Apples and Bananas: Solution 1
+Purpose: Apples and Bananas: Solution 2
 """
 
 import argparse
@@ -43,17 +43,11 @@ def main():
     args = get_args()
     text = args.text
     vowel = args.vowel
-    new_text = []
 
-    for char in text:
-        if char in "aeiou":
-            new_text.append(vowel)
-        elif char in "AEIOU":
-            new_text.append(vowel.upper())
-        else:
-            new_text.append(char)
+    for v in "aeiou":
+        text = text.replace(v, vowel).replace(v.upper(), vowel.upper())
 
-    print("".join(new_text))
+    print(text)
 
 
 # --------------------------------------------------
