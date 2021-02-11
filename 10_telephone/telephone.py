@@ -6,7 +6,9 @@ Purpose: Telephone Game
 """
 
 import argparse
-
+import os
+import random
+import string
 
 # --------------------------------------------------
 def get_args():
@@ -36,7 +38,15 @@ def get_args():
         default=0.1,
     )
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if not 0 <= args.mutations <= 1:
+        parser.error(f'--mutations "{args.mutations}" must be between 0 and 1')
+
+    if os.path.isfile(args.text):
+        args.text = open(args.text.read().rstrip())
+
+    return args
 
 
 # --------------------------------------------------
