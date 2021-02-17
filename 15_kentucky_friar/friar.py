@@ -6,6 +6,8 @@ Purpose: Rock the Casbah
 """
 
 import argparse
+import os
+import re
 
 
 # --------------------------------------------------
@@ -13,40 +15,18 @@ def get_args():
     """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description='Rock the Casbah',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description="Southern fry text",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
 
-    parser.add_argument('positional',
-                        metavar='str',
-                        help='A positional argument')
+    parser.add_argument("text", metavar="text", help="Input text or file")
 
-    parser.add_argument('-a',
-                        '--arg',
-                        help='A named string argument',
-                        metavar='str',
-                        type=str,
-                        default='')
+    args = parser.parse_args()
 
-    parser.add_argument('-i',
-                        '--int',
-                        help='A named integer argument',
-                        metavar='int',
-                        type=int,
-                        default=0)
+    if os.path.isfile(args.text):
+        args.text = open(args.text).read()
 
-    parser.add_argument('-f',
-                        '--file',
-                        help='A readable file',
-                        metavar='FILE',
-                        type=argparse.FileType('rt'),
-                        default=None)
-
-    parser.add_argument('-o',
-                        '--on',
-                        help='A boolean flag',
-                        action='store_true')
-
-    return parser.parse_args()
+    return args
 
 
 # --------------------------------------------------
@@ -54,19 +34,37 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    str_arg = args.arg
-    int_arg = args.int
-    file_arg = args.file
-    flag_arg = args.on
-    pos_arg = args.positional
+    for line in args.text.splitlines():
+        print(''.join(map(fry, re.split(r'(\W+)', line.rstrip()))))
 
-    print(f'str_arg = "{str_arg}"')
-    print(f'int_arg = "{int_arg}"')
-    print('file_arg = "{}"'.format(file_arg.name if file_arg else ''))
-    print(f'flag_arg = "{flag_arg}"')
-    print(f'positional = "{pos_arg}"')
+
+def fry(word):
+    """Drop the `g` from `-ing` words, change `you` to `y'all`"""
+
+    ing_word = re.search("(.+)ing$", word)
+    you = re.match("([Yy])ou$", word)
+
+    if ing_word:
+        prefix = ing_word.group(1)
+        if re.search("[aeiouy]", prefix, re.IGNORECASE):
+            return prefix + "in'"
+    elif you:
+        return you.group(1) + "'all"
+
+    return word
+
+
+def test_fry():
+    """Test fry"""
+
+    assert fry("you") == "y'all"
+    assert fry("You") == "Y'all"
+    assert fry("your") == "your"
+    assert fry("fishing") == "fishin'"
+    assert fry("Aching") == "Achin'"
+    assert fry("swing") == "swing"
 
 
 # --------------------------------------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
