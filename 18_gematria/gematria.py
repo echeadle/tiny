@@ -2,10 +2,12 @@
 """
 Author : echeadle <echeadle@localhost>
 Date   : 2021-02-17
-Purpose: Rock the Casbah
+Purpose: Gematria
 """
 
 import argparse
+import os
+import re
 
 
 # --------------------------------------------------
@@ -13,40 +15,16 @@ def get_args():
     """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description='Rock the Casbah',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description="Gematria", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
-    parser.add_argument('positional',
-                        metavar='str',
-                        help='A positional argument')
+    parser.add_argument("text", metavar="text", help="Input text or file")
 
-    parser.add_argument('-a',
-                        '--arg',
-                        help='A named string argument',
-                        metavar='str',
-                        type=str,
-                        default='')
+    args = parser.parse_args()
+    if os.path.isfile(args.text):
+        args.text = open(args.text).read().rstrip()
 
-    parser.add_argument('-i',
-                        '--int',
-                        help='A named integer argument',
-                        metavar='int',
-                        type=int,
-                        default=0)
-
-    parser.add_argument('-f',
-                        '--file',
-                        help='A readable file',
-                        metavar='FILE',
-                        type=argparse.FileType('rt'),
-                        default=None)
-
-    parser.add_argument('-o',
-                        '--on',
-                        help='A boolean flag',
-                        action='store_true')
-
-    return parser.parse_args()
+    return args
 
 
 # --------------------------------------------------
@@ -54,19 +32,22 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    str_arg = args.arg
-    int_arg = args.int
-    file_arg = args.file
-    flag_arg = args.on
-    pos_arg = args.positional
+    for line in args.text.splitlines():
+        print(' '.join(map(word2num, line.split())))
 
-    print(f'str_arg = "{str_arg}"')
-    print(f'int_arg = "{int_arg}"')
-    print('file_arg = "{}"'.format(file_arg.name if file_arg else ''))
-    print(f'flag_arg = "{flag_arg}"')
-    print(f'positional = "{pos_arg}"')
+def word2num(word):
+    """Sum the ordinal values of all the characters"""
+    return str(sum(map(ord, re.sub('[^A-Za-z0-9]', '', word))))
 
+def test_word2num():
+    """Test word2num"""
+    assert word2num("a") == "97"
+    assert word2num("abc") == "294"
+    assert word2num("ab'c") == "294"
+    assert word2num("4a-b'c,") == "346"
+    
+    
 
 # --------------------------------------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
